@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>通过World模块控制虚拟场景</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.js"></script>
+    <style>
+        body {
+            text-align: center;
+            margin: 10px;
+        }
+
+        canvas {
+            margin: 20px auto;
+        }
+
+        button {
+            color: white;
+            background: orange;
+            border: none;
+            padding: 10px;
+            font-weight: 300;
+            font-size: 1.2em;
+            font-family: 'Lato';
+            margin: 10px;
+            cursor: pointer;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="scale">Scale</button>
+    <button class="rotate">Rotate</button>
+    <button class="translate">Translate</button>
+    <br>
+    <script>
+        var Engine = Matter.Engine,
+        Render = Matter.Render,
+        World = Matter.World,
+        Bodies = Matter.Bodies;
+
+        var engine = Engine.create();
+
+        var render = Render.create({
+            element: document.body,
+            engine: engine,
+                options: {
+                width: 800,
+                height: 400,
+                wireframes: false
+            }
+        });
+
+        var topWall = Bodies.rectangle(400, 50, 720, 20, { isStatic: true });
+        var leftWall = Bodies.rectangle(50, 210, 20, 300, { isStatic: true });
+        var rightWall = Bodies.rectangle(750, 210, 20, 300, { isStatic: true });
+        var ball = Bodies.circle(460, 100, 40);
+        var bottomWall = Bodies.rectangle(400, 350, 720, 20, { isStatic: true });
+
+        World.add(engine.world, [topWall, leftWall, rightWall, ball, bottomWall]);
+
+        Engine.run(engine);
+
+        Render.run(render);
+
+
+        var addCircle = function () {
+            return Bodies.circle(Math.random()*400 + 30, 30, 30);
+        };
+
+        var addSquare = function () {
+            return Bodies.rectangle(Math.random()*400 + 30, 30, 60, 60);
+        };
+
+        var addRect = function () {
+            return Bodies.rectangle(Math.random()*400 + 30, 30, 100, 60);
+        };
+
+        $('.scale').on('click', function () {
+            Matter.Composite.scale( engine.world, 0.5, 0.7, {x: 400, y: 200});
+        });
+
+        $('.rotate').on('click', function () {
+            Matter.Composite.rotate( engine.world, Math.PI/4, {x: 400, y: 200});
+        });
+
+        $('.translate').on('click', function () {
+            Matter.Composite.translate( engine.world, {x: 10, y: 10});
+        });
+
+
+
+    </script>
+</body>
+</html>
