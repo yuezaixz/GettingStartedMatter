@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>通过Body模块控制实体的体征属性</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.js"></script>
+    <style>
+        body {
+            text-align: center;
+            margin: 10px;
+        }
+
+        canvas {
+            margin: 20px auto;
+        }
+
+        button {
+            color: white;
+            background: orange;
+            border: none;
+            padding: 10px;
+            font-weight: 300;
+            font-size: 1.2em;
+            font-family: 'Lato';
+            margin: 10px;
+            cursor: pointer;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="scale">Scale</button>
+    <button class="rotate">Rotate</button>
+    <button class="translate">Translate</button>
+    <br>
+    <script>
+        var Engine = Matter.Engine,
+        Render = Matter.Render,
+        World = Matter.World,
+        Bodies = Matter.Bodies,
+        Body = Matter.Body;
+
+        var engine = Engine.create();
+
+        var render = Render.create({
+        element: document.body,
+        engine: engine,
+        options: {
+            width: 800,
+            height: 400,
+            wireframes: false
+        }
+        });
+
+        engine.world.gravity.y = 0;
+
+        var topWall = Bodies.rectangle(400, 50, 720, 20, { isStatic: true });
+        var leftWall = Bodies.rectangle(50, 210, 20, 300, { isStatic: true });
+        var rightWall = Bodies.rectangle(750, 210, 20, 300, { isStatic: true });
+        var bottomWall = Bodies.rectangle(400, 350, 720, 20, { isStatic: true });
+
+        var box = Bodies.rectangle(460, 120, 40, 40);
+
+        World.add(engine.world, [topWall, leftWall, rightWall, bottomWall, box]);
+
+        Engine.run(engine);
+
+        Render.run(render);
+
+        $('.scale').on('click', function () {
+            Body.scale( box, 1.5, 1.2);
+        });
+
+        $('.rotate').on('click', function () {
+            Body.rotate( box, Math.PI/6);
+        });
+
+        $('.translate').on('click', function () {
+            Body.translate( box, {x: -10, y: 20});
+        });
+    </script>
+</body>
+</html>
