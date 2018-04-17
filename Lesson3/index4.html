@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Body模块控制实体的摩擦力、弹力及空气阻力</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.js"></script>
+    <style>
+        body {
+            text-align: center;
+            margin: 10px;
+        }
+
+        canvas {
+            margin: 20px auto;
+        }
+
+        button {
+            color: white;
+            background: orange;
+            border: none;
+            padding: 10px;
+            font-weight: 300;
+            font-size: 1.2em;
+            font-family: 'Lato';
+            margin: 10px;
+            cursor: pointer;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="force">Horizontal Force</button>
+    <button class="vforce">Vertical Force</button>
+    <button class="red-friction">Reduce Friction</button>
+    <button class="res-friction">Restore Friction</button>
+    <br>
+    <script>
+        var Engine = Matter.Engine,
+        Render = Matter.Render,
+        World = Matter.World,
+        Bodies = Matter.Bodies,
+        Body = Matter.Body;
+
+        var engine = Engine.create();
+
+        var render = Render.create({
+        element: document.body,
+        engine: engine,
+        options: {
+            width: 800,
+            height: 400,
+            wireframes: false
+        }
+        });
+
+        var topWall = Bodies.rectangle(400, 50, 720, 20, { isStatic: true});
+        var leftWall = Bodies.rectangle(50, 210, 20, 300, { isStatic: true});
+        var rightWall = Bodies.rectangle(750, 210, 20, 300, { isStatic: true});
+        var bottomWall = Bodies.rectangle(400, 350, 720, 20, { isStatic: true});
+
+        var ball = Bodies.circle(90, 280, 20);
+
+
+        World.add(engine.world, [topWall, leftWall, rightWall, bottomWall, ball]);
+
+        Engine.run(engine);
+
+        Render.run(render);
+
+        $('.force').on('click', function () {
+            Body.applyForce( ball, {x: ball.position.x, y: ball.position.y}, {x: 0.04, y: 0});
+        });
+
+
+        $('.vforce').on('click', function () {
+            Body.applyForce( ball, {x: ball.position.x, y: ball.position.y}, {x: 0, y: -0.04});
+        });
+
+        $('.red-friction').on('click', function () {
+        ball.friction = 0.05;
+        ball.frictionAir = 0.0005;
+        ball.restitution = 0.9;
+        });
+
+        $('.res-friction').on('click', function () {
+        ball.friction = 0.1;
+        ball.frictionAir = 0.001;
+        ball.restitution = 0;
+        });
+
+    </script>
+</body>
+</html>
