@@ -15,4 +15,4 @@ Matter.js是非常好的物理引擎库，译者最近是做个小游戏，通�
 
 [Matter.js指南（三）：Body模块（译）](http://blog.davidandty.com/2018/04/19/Matter-js%E6%8C%87%E5%8D%97%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9ABody%E6%A8%A1%E5%9D%97%EF%BC%88%E8%AF%91%EF%BC%89-md/)
 
-
+[Matter.js指南（四）：Composites与Composite 模块（译）](http://blog.davidandty.com/2018/04/20/Matter-js%E6%8C%87%E5%8D%97%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9AComposites%E4%B8%8EComposite-%E6%A8%A1%E5%9D%97%EF%BC%88%E8%AF%91%EF%BC%89/)
